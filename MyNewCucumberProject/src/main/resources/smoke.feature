@@ -53,5 +53,5 @@ Feature: Smoke
 
 
     Examples:
-      | homePage              | itemNumber |
+      | homePage              | itemNumber   |
       | https://www.ebay.com/ | 294073463432 |

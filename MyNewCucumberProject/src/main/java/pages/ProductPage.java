@@ -31,8 +31,8 @@ public class ProductPage extends BasePage {
 	@FindBy(xpath = "//button[@id='sbin-gxo-btn']")
 	private WebElement checkOutAsGuestButton;
 
-	@FindBy(xpath = "//a[contains(@href, 'Michael-Kors')]")
-	private WebElement michaelKorsCheckbox;
+	@FindBy(xpath = "//a[contains(@href, 'Nike')]")
+	private WebElement brandCheckbox;
 
 	@FindBy(xpath = "//ul[@class='b-list__items_nofooter srp-results srp-grid']//li")
 	private List<WebElement> sortedListOfItems;
@@ -76,16 +76,22 @@ public class ProductPage extends BasePage {
 	}
 
 	public void clickOnMichaelKorsCheckbox() {
-		michaelKorsCheckbox.click();
+		brandCheckbox.click();
 	}
 
 	public List<WebElement> getSortedListOfItems() {
 		return sortedListOfItems;
 	}
 
-	public void clickOnItemAfterSearchByNumber() {itemAfterSearchByNumber.click();}
+	public void clickOnItemAfterSearchByNumber() {
+		itemAfterSearchByNumber.click();
+	}
 
-	public WebElement getAddToCartButton() {return addToCartButton;}
+	public WebElement getAddToCartButton() {
+		return addToCartButton;
+	}
 
-	public WebElement getItemAfterSearchByNumber() {return itemAfterSearchByNumber;}
+	public WebElement getItemAfterSearchByNumber() {
+		return itemAfterSearchByNumber;
+	}
 }

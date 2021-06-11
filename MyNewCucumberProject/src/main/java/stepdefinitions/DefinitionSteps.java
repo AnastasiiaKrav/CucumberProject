@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 public class DefinitionSteps {
 
 	private static final long DEFAULT_TIMEOUT = 60;
+	public static final String PAY = "pay";
 	WebDriver driver;
 	HomePage homePage;
 	SignInPage signInPage;
@@ -34,7 +35,6 @@ public class DefinitionSteps {
 	CheckoutPage checkoutPage;
 	RegisterPage registerPage;
 	ShoppingCartPage shoppingCartPage;
-
 
 	@Before
 	public void testsSetUp() {
@@ -50,7 +50,6 @@ public class DefinitionSteps {
 		homePage = pageFactoryManager.getHomePage();
 		homePage.openHomePage(url);
 	}
-
 
 	@And("User checks header visibility")
 	public void checkHeaderVisibility() {
@@ -204,7 +203,6 @@ public class DefinitionSteps {
 		assertTrue(registerPage.registerWindowIsOpen());
 	}
 
-
 	@And("User checks personal account radio button is checked")
 	public void checkPersonalAccountRadioButtonIsChecked() {
 		if (registerPage.registerWindowIsOpen()) {
@@ -342,10 +340,11 @@ public class DefinitionSteps {
 	@And("User clicks on confirm and pay button")
 	public void clickOnConfirmAndPayButton() {
 		checkoutPage = pageFactoryManager.getCheckoutPage();
-		if(driver.getCurrentUrl().contains("pay")) {
+		if (driver.getCurrentUrl().contains(PAY)) {
 			checkoutPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
 		} else {
-		checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getConfirmAndPayButton());}
+			checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getConfirmAndPayButton());
+		}
 		checkoutPage.clickOnConfirmAndPayButton();
 
 	}
@@ -353,9 +352,11 @@ public class DefinitionSteps {
 	@And("User enters {string} into firstName input")
 	public void enterFirstNameIntoFirstNameInput(final String firstName) {
 		checkoutPage = pageFactoryManager.getCheckoutPage();
-		if(driver.getCurrentUrl().contains("pay")) {
+		if (driver.getCurrentUrl().contains(PAY)) {
 			checkoutPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
-		} else {checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getInputForFirstName());}
+		} else {
+			checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getInputForFirstName());
+		}
 		checkoutPage.enterFirstNameIntoInput(firstName);
 	}
 
@@ -417,7 +418,6 @@ public class DefinitionSteps {
 		checkoutPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
 		((JavascriptExecutor) driver).executeScript("scroll(0,1000)");
 		checkoutPage.isCreditCardDetailsFormVisible();
-
 	}
 
 	@And("User clicks on paypal radio button")
@@ -505,27 +505,33 @@ public class DefinitionSteps {
 	}
 
 	@And("User checks go to checkout button visibility")
-	public void checksGoToCheckoutButtonVisibility() { shoppingCartPage.isGoToCheckoutButtonVisible();
+	public void checksGoToCheckoutButtonVisibility() {
+		shoppingCartPage.isGoToCheckoutButtonVisible();
 	}
 
 	@And("User checks pay only this seller button visibility")
-	public void checksPayOnlyThisSellerButtonVisibility() { shoppingCartPage.isPayOnlyThisSellerButtonVisible();
+	public void checksPayOnlyThisSellerButtonVisibility() {
+		shoppingCartPage.isPayOnlyThisSellerButtonVisible();
 	}
 
 	@And("User checks remove item visibility")
-	public void checksRemoveItemVisibility() { shoppingCartPage.isRemoveItemVisible();
+	public void checksRemoveItemVisibility() {
+		shoppingCartPage.isRemoveItemVisible();
 	}
 
 	@And("User checks total amount table visibility")
-	public void checksTotalAmountTableVisibility() { shoppingCartPage.isTotalAmountTableVisible();
+	public void checksTotalAmountTableVisibility() {
+		shoppingCartPage.isTotalAmountTableVisible();
 	}
 
 	@And("User checks page alerts visibility")
-	public void checksPageAlertsVisibility() { shoppingCartPage.isPageAlertsVisible();
+	public void checksPageAlertsVisibility() {
+		shoppingCartPage.isPageAlertsVisible();
 	}
 
 	@And("User clicks on item after search by its number")
-	public void clicksOnItemAfterSearchByItsNumber() {productPage = pageFactoryManager.getProductPage();
+	public void clicksOnItemAfterSearchByItsNumber() {
+		productPage = pageFactoryManager.getProductPage();
 		productPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
 		homePage.clickOnSearchButton();
 		productPage.clickOnItemAfterSearchByNumber();
@@ -535,7 +541,4 @@ public class DefinitionSteps {
 	public void tearDown() {
 		driver.close();
 	}
-
-
-
 }
