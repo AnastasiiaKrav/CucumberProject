@@ -13,6 +13,9 @@ public class ProductPage extends BasePage {
 	@FindBy(xpath = "//ul[contains(@class, 'list__items')]/li[2]")
 	private WebElement itemInWomensShoesCategory;
 
+	@FindBy(xpath = "//ul//div[@class='s-item__image-section']")
+	private WebElement itemAfterSearchByNumber;
+
 	@FindBy(xpath = "//a[@role = 'button' and @id= 'isCartBtn_btn']")
 	private WebElement addToCartButton;
 
@@ -79,4 +82,10 @@ public class ProductPage extends BasePage {
 	public List<WebElement> getSortedListOfItems() {
 		return sortedListOfItems;
 	}
+
+	public void clickOnItemAfterSearchByNumber() {itemAfterSearchByNumber.click();}
+
+	public WebElement getAddToCartButton() {return addToCartButton;}
+
+	public WebElement getItemAfterSearchByNumber() {return itemAfterSearchByNumber;}
 }

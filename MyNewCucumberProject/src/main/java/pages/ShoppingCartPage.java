@@ -6,33 +6,42 @@ import org.openqa.selenium.support.FindBy;
 
 public class ShoppingCartPage extends BasePage {
 
-	@FindBy(xpath = "//h1[@class='checkout-header__heading']")
-	private WebElement shoppingCartTitle;
+	@FindBy(xpath = "//div[@class='cartsummary-cta']")
+	private WebElement goToCheckoutButton;
 
-	@FindBy(xpath = "//button[@class='checkout-order-summary__continue-btn']")
-	private WebElement checkoutButton;
+	@FindBy(xpath = "//a[contains(@href, 'sellerid')]")
+	private WebElement payOnlyThisSellerButton;
 
-	@FindBy(xpath = "//div[contains(@class, 'shopping-cart-item--shopping-cart-your-order')]|//section[@data-code or @data-product-code]")
-	private WebElement shoppingCartItem;
+	@FindBy(xpath = "//button[@data-test-id='cart-remove-item']")
+	private WebElement removeItem;
+
+	@FindBy(xpath = "//div[@class=\"table\"]")
+	private WebElement totalAmountTable;
+
+	@FindBy(xpath = "//div[@class=\"page-alerts\"]")
+	private WebElement pageAlerts;
 
 	public ShoppingCartPage(WebDriver driver) {
 		super(driver);
 	}
 
-	public WebElement getShoppingCartTitle() {
-		return shoppingCartTitle;
+	public void isGoToCheckoutButtonVisible() {
+		goToCheckoutButton.isDisplayed();
 	}
 
-	public boolean isShoppingCartTitleVisible() {
-		return shoppingCartTitle.isDisplayed();
+	public void isPayOnlyThisSellerButtonVisible() {
+		payOnlyThisSellerButton.isDisplayed();
 	}
 
-	public void clickCheckoutButton() {
-		checkoutButton.click();
+	public void isRemoveItemVisible() {
+		removeItem.isDisplayed();
 	}
 
-	public WebElement getShoppingCartItem() {
-		return shoppingCartItem;
+	public void isTotalAmountTableVisible() {
+		totalAmountTable.isDisplayed();
 	}
 
+	public void isPageAlertsVisible() {
+		pageAlerts.isDisplayed();
+	}
 }

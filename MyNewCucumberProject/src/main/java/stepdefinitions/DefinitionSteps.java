@@ -17,6 +17,7 @@ import pages.CheckoutPage;
 import pages.HomePage;
 import pages.ProductPage;
 import pages.RegisterPage;
+import pages.ShoppingCartPage;
 import pages.SignInPage;
 
 import static io.github.bonigarcia.wdm.WebDriverManager.chromedriver;
@@ -32,6 +33,7 @@ public class DefinitionSteps {
 	PageFactoryManager pageFactoryManager;
 	CheckoutPage checkoutPage;
 	RegisterPage registerPage;
+	ShoppingCartPage shoppingCartPage;
 
 
 	@Before
@@ -205,8 +207,11 @@ public class DefinitionSteps {
 
 	@And("User checks personal account radio button is checked")
 	public void checkPersonalAccountRadioButtonIsChecked() {
-		registerPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
-		//registerPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, registerPage.getPersonalAccountRadioButtonChecked());
+		if (registerPage.registerWindowIsOpen()) {
+			registerPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+		} else {
+			registerPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, registerPage.getPersonalAccountRadioButtonChecked());
+		}
 		registerPage.isPersonalAccountRadioButtonCheckedVisible();
 	}
 
@@ -309,6 +314,7 @@ public class DefinitionSteps {
 
 	@When("User clicks on add to cart")
 	public void clickOnAddToCart() {
+		productPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, productPage.getAddToCartButton());
 		productPage.clickOnAddToCartButton();
 	}
 
@@ -336,7 +342,10 @@ public class DefinitionSteps {
 	@And("User clicks on confirm and pay button")
 	public void clickOnConfirmAndPayButton() {
 		checkoutPage = pageFactoryManager.getCheckoutPage();
-		checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getConfirmAndPayButton());
+		if(driver.getCurrentUrl().contains("pay")) {
+			checkoutPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+		} else {
+		checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getConfirmAndPayButton());}
 		checkoutPage.clickOnConfirmAndPayButton();
 
 	}
@@ -344,7 +353,9 @@ public class DefinitionSteps {
 	@And("User enters {string} into firstName input")
 	public void enterFirstNameIntoFirstNameInput(final String firstName) {
 		checkoutPage = pageFactoryManager.getCheckoutPage();
-		checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getInputForFirstName());
+		if(driver.getCurrentUrl().contains("pay")) {
+			checkoutPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+		} else {checkoutPage.waitVisibilityOfElement(DEFAULT_TIMEOUT, checkoutPage.getInputForFirstName());}
 		checkoutPage.enterFirstNameIntoInput(firstName);
 	}
 
@@ -411,19 +422,12 @@ public class DefinitionSteps {
 
 	@And("User clicks on paypal radio button")
 	public void clickOnPaypalRadioButton() {
+		checkoutPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
 		checkoutPage.clickOnPaypalRadioButton();
 	}
 
 	@And("User closes new opened paypal window")
 	public void switchToThePaypalNewOpenedWindow() {
-//    String winHandleBefore = driver.getWindowHandle();
-//        for (String winHandle : driver.getWindowHandles()) {
-//			//driver.manage().timeouts().pageLoadTimeout(90, TimeUnit.SECONDS);
-//            driver.switchTo().window(winHandle);
-//			driver.manage().timeouts().pageLoadTimeout(90, TimeUnit.SECONDS);
-		//	driver.close();
-//        }
-		// driver.switchTo().window(winHandleBefore);
 	}
 
 	@Then("User checks error first name visibility")
@@ -493,9 +497,45 @@ public class DefinitionSteps {
 		}
 	}
 
+	@Then("User checks page url contains {string}")
+	public void checksPageUrlContainsCart(final String cart) {
+		shoppingCartPage = pageFactoryManager.getShoppingCartPage();
+		shoppingCartPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+		assertTrue(driver.getCurrentUrl().contains(cart));
+	}
+
+	@And("User checks go to checkout button visibility")
+	public void checksGoToCheckoutButtonVisibility() { shoppingCartPage.isGoToCheckoutButtonVisible();
+	}
+
+	@And("User checks pay only this seller button visibility")
+	public void checksPayOnlyThisSellerButtonVisibility() { shoppingCartPage.isPayOnlyThisSellerButtonVisible();
+	}
+
+	@And("User checks remove item visibility")
+	public void checksRemoveItemVisibility() { shoppingCartPage.isRemoveItemVisible();
+	}
+
+	@And("User checks total amount table visibility")
+	public void checksTotalAmountTableVisibility() { shoppingCartPage.isTotalAmountTableVisible();
+	}
+
+	@And("User checks page alerts visibility")
+	public void checksPageAlertsVisibility() { shoppingCartPage.isPageAlertsVisible();
+	}
+
+	@And("User clicks on item after search by its number")
+	public void clicksOnItemAfterSearchByItsNumber() {productPage = pageFactoryManager.getProductPage();
+		productPage.waitForPageLoadComplete(DEFAULT_TIMEOUT);
+		homePage.clickOnSearchButton();
+		productPage.clickOnItemAfterSearchByNumber();
+	}
+
 	@After
 	public void tearDown() {
 		driver.close();
 	}
+
+
 
 }
